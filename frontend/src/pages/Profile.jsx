@@ -224,7 +224,20 @@ const Profile = () => {
               <div className="relative">
                 <div className="w-32 h-32 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 flex items-center justify-center text-white text-4xl font-bold overflow-hidden">
                   {user.avatar ? (
-                    <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                    <img 
+                      src={user.avatar} 
+                      alt={user.name} 
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.style.display = 'none'
+                        const parent = e.target.parentElement
+                        if (parent && user?.name) {
+                          const fallback = document.createElement('span')
+                          fallback.textContent = user.name.charAt(0).toUpperCase()
+                          parent.appendChild(fallback)
+                        }
+                      }}
+                    />
                   ) : (
                     <span>{user.name?.charAt(0).toUpperCase()}</span>
                   )}
@@ -435,9 +448,13 @@ const Profile = () => {
                                     <div className="flex items-center gap-3">
                                       {item.image && (
                                         <img 
-                                          src={item.image} 
+                                          src={item.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'} 
                                           alt={item.name}
                                           className="w-12 h-12 rounded-lg object-cover"
+                                          onError={(e) => {
+                                            e.target.onerror = null
+                                            e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'
+                                          }}
                                         />
                                       )}
                                       <div>

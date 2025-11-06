@@ -373,9 +373,13 @@ const RestaurantDetail = () => {
                     {restaurant.photos.map((photo, index) => (
                       <div key={index} className="rounded-xl overflow-hidden">
                         <img
-                          src={photo}
+                          src={photo || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800'}
                           alt={`${restaurant.name} ${index + 1}`}
                           className="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+                          onError={(e) => {
+                            e.target.onerror = null
+                            e.target.src = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800'
+                          }}
                         />
                       </div>
                     ))}

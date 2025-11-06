@@ -98,13 +98,38 @@ const DealDetail = () => {
       {/* Deal Hero */}
       <div className="relative h-64 overflow-hidden bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500">
         <div className="absolute inset-0 bg-black/20" />
-        {deal.image && (
-          <img
-            src={deal.image}
-            alt={deal.title}
-            className="w-full h-full object-cover opacity-30"
-          />
-        )}
+        {(() => {
+          // Get appropriate fallback image based on deal title/type
+          const getFallbackImage = () => {
+            const title = (deal.title || '').toLowerCase()
+            if (title.includes('chinese') || title.includes('asian')) {
+              return 'https://images.unsplash.com/photo-1552568043-0b5c02c30a48?w=800'
+            } else if (title.includes('dessert') || title.includes('sweet')) {
+              return 'https://images.unsplash.com/photo-1563805042-7688c019e175?w=800'
+            } else if (title.includes('pizza')) {
+              return 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800'
+            } else if (title.includes('burger')) {
+              return 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=800'
+            } else if (title.includes('chicken')) {
+              return 'https://images.unsplash.com/photo-1626087927381-6c0f5e5e6b9f?w=800'
+            } else if (title.includes('delivery') || title.includes('free')) {
+              return 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800'
+            }
+            return 'https://images.unsplash.com/photo-1556912172-45b7abe8b7e4?w=800'
+          }
+          const imageUrl = deal.image && deal.image.trim() ? deal.image : getFallbackImage()
+          return (
+            <img
+              src={imageUrl}
+              alt={deal.title}
+              className="w-full h-full object-cover opacity-30"
+              onError={(e) => {
+                e.target.onerror = null
+                e.target.src = getFallbackImage()
+              }}
+            />
+          )
+        })()}
         
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="text-white">

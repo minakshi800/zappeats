@@ -174,6 +174,20 @@ const Header = () => {
                     src={user.avatar} 
                     alt={user.name || 'User'} 
                     className="w-10 h-10 rounded-full object-cover"
+                    onError={(e) => {
+                      e.target.style.display = 'none'
+                      const parent = e.target.parentElement
+                      if (parent && user && user.name) {
+                        const fallback = document.createElement('span')
+                        fallback.className = 'text-lg font-bold'
+                        fallback.textContent = user.name.charAt(0).toUpperCase()
+                        parent.appendChild(fallback)
+                      } else if (parent) {
+                        const icon = document.createElement('div')
+                        icon.innerHTML = '<svg class="text-xl" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>'
+                        parent.appendChild(icon)
+                      }
+                    }}
                   />
                 ) : user?.name ? (
                   <span className="text-lg font-bold">{user.name.charAt(0).toUpperCase()}</span>
@@ -274,6 +288,20 @@ const Header = () => {
                               src={user.avatar} 
                               alt={user.name || 'User'} 
                               className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
+                              onError={(e) => {
+                                e.target.style.display = 'none'
+                                const parent = e.target.parentElement
+                                if (parent && user && user.name) {
+                                  const fallback = document.createElement('span')
+                                  fallback.className = 'text-lg sm:text-xl font-bold text-white'
+                                  fallback.textContent = user.name.charAt(0).toUpperCase()
+                                  parent.appendChild(fallback)
+                                } else if (parent) {
+                                  const icon = document.createElement('div')
+                                  icon.innerHTML = '<svg class="text-xl sm:text-2xl text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>'
+                                  parent.appendChild(icon)
+                                }
+                              }}
                             />
                           ) : user?.name ? (
                             <span className="text-lg sm:text-xl font-bold text-white">{user.name.charAt(0).toUpperCase()}</span>

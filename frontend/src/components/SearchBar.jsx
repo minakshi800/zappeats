@@ -156,6 +156,10 @@ const SearchBar = () => {
                             src={item.image}
                             alt={item.name}
                             className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.target.onerror = null
+                              e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800'
+                            }}
                           />
                         ) : (
                           <FiSearch className="text-gray-400 text-xl" />

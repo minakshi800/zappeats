@@ -98,15 +98,38 @@ const Deals = () => {
               >
                 {/* Deal Image */}
                 <div className="relative h-40 sm:h-48 overflow-hidden bg-gray-200">
-                  <img
-                    src={deal.image || 'https://images.unsplash.com/photo-1556912172-45b7abe8b7e4?w=800'}
-                    alt={deal.title}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.target.onerror = null
-                      e.target.src = 'https://images.unsplash.com/photo-1556912172-45b7abe8b7e4?w=800'
-                    }}
-                  />
+                  {(() => {
+                    // Get appropriate fallback image based on deal title/type
+                    const getFallbackImage = () => {
+                      const title = (deal.title || '').toLowerCase()
+                      if (title.includes('chinese') || title.includes('asian')) {
+                        return 'https://images.unsplash.com/photo-1552568043-0b5c02c30a48?w=800'
+                      } else if (title.includes('dessert') || title.includes('sweet')) {
+                        return 'https://images.unsplash.com/photo-1563805042-7688c019e175?w=800'
+                      } else if (title.includes('pizza')) {
+                        return 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800'
+                      } else if (title.includes('burger')) {
+                        return 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=800'
+                      } else if (title.includes('chicken')) {
+                        return 'https://images.unsplash.com/photo-1626087927381-6c0f5e5e6b9f?w=800'
+                      } else if (title.includes('delivery') || title.includes('free')) {
+                        return 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800'
+                      }
+                      return 'https://images.unsplash.com/photo-1556912172-45b7abe8b7e4?w=800'
+                    }
+                    const imageUrl = deal.image && deal.image.trim() ? deal.image : getFallbackImage()
+                    return (
+                      <img
+                        src={imageUrl}
+                        alt={deal.title}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null
+                          e.target.src = getFallbackImage()
+                        }}
+                      />
+                    )
+                  })()}
                   <div className="absolute top-2 right-2 sm:top-4 sm:right-4">
                     <div className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-full font-bold text-sm sm:text-lg shadow-lg">
                       {formatDiscount(deal)}

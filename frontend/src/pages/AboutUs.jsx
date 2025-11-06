@@ -244,11 +244,15 @@ const AboutUs = () => {
                 whileHover={{ y: -10, scale: 1.05 }}
                 className="bg-white dark:bg-dark-card rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-dark-border"
               >
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-64 overflow-hidden bg-gray-200">
                   <img
-                    src={member.image}
+                    src={member.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800'}
                     alt={member.name}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null
+                      e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800'
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 </div>
